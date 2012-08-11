@@ -1,0 +1,3 @@
+#!/bin/sh
+
+curl https://raw.github.com/gist/3288122/dd787ba1a38c4c6947f15e60dc55428ca1293b0f/.gitignore >> ./.gitignore

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo Removing '~/Library/Caches/CocoaPods/*'...
+rm -rf ~/Library/Caches/CocoaPods/*
+
+echo Updating pod repos...
+pod repo update
