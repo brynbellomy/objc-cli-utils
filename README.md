@@ -20,7 +20,7 @@ mkdir -p ~/src
 git clone git://github.com/brynbellomy/objc-cli-utils.git ~/src/objc-cli-utils
 for file in ~/src/objc-cli-utils
 do
-	ln -s "${file}" /usr/local/bin/$(basename "$fullfile")
+	ln -s ~/src/objc-cli-utils/`basename "$file"` /usr/local/bin/`basename "$file"`
 done
 ```
 
@@ -33,3 +33,5 @@ bryn austin bellomy < <bryn.bellomy@gmail.com> >
 # license
 
 MIT.  after all, xcode 4.x.x makes me feel deeply for humanity.  here's your advance warning: scripts do things.  so if you wipe out important shit, don't get in touch.
+
+
