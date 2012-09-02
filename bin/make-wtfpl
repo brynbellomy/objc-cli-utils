@@ -1,0 +1,3 @@
+#!/bin/sh
+
+curl https://raw.github.com/gist/3598842/23b47cd1a46be362bde0ce900514c6ebfe5c5804/LICENSE.md >> ./LICENSE.md
