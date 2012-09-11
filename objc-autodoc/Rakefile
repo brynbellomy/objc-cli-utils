@@ -1,0 +1,20 @@
+
+task :default => [:clean, :build, :run]
+
+file "objc-autodoc" do |t|
+	`coffee --compile objc-autodoc.coffee`
+	`echo '#!/usr/bin/env node
+' > ./objc-autodoc`
+    `cat ./objc-autodoc.js >> ./objc-autodoc`
+    `chmod +x ./objc-autodoc`
+end
+
+task :build => ["objc-autodoc"]
+
+task :run do |t|
+	sh "cat ~/projects/don/Pods/Brynstagram-edge/Brynstagram/BrynstagramRecordingViewController.m | ./objc-autodoc > ./test.m"
+end
+
+task :clean do |t|
+	`rm ./objc-autodoc`
+end
