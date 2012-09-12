@@ -1,20 +1,34 @@
 
-task :default => [:clean, :build, :run]
+task :default => [ :uninstall, :clean, :build, :install ]
 
 file "objc-autodoc" do |t|
-	`coffee --compile objc-autodoc.coffee`
-	`echo '#!/usr/bin/env node
-' > ./objc-autodoc`
-    `cat ./objc-autodoc.js >> ./objc-autodoc`
-    `chmod +x ./objc-autodoc`
+	sh "coffee --compile objc-autodoc.coffee"
+	sh "echo '#!/usr/bin/env node
+' > ./objc-autodoc"
+    sh "cat ./objc-autodoc.js >> ./objc-autodoc"
+    sh "chmod +x ./objc-autodoc"
 end
 
-task :build => ["objc-autodoc"]
-
-task :run do |t|
-	sh "cat ~/projects/don/Pods/Brynstagram-edge/Brynstagram/BrynstagramRecordingViewController.m | ./objc-autodoc > ./test.m"
+file "/usr/local/bin/objc-autodoc" => ["objc-autodoc"] do |t|
+	sh "ln -s objc-autodoc /usr/local/bin/objc-autodoc"
 end
 
-task :clean do |t|
-	`rm ./objc-autodoc`
+
+
+task :build   => [ "objc-autodoc" ]
+task :install => [ "/usr/local/bin/objc-autodoc" ]
+
+task :clean   => [ :uninstall ] do |t|
+	if File.exist?("./objc-autodoc")
+		sh "rm ./objc-autodoc"
+	end
 end
+
+task :uninstall do |t|
+	if File.symlink?("/usr/local/bin/objc-autodoc")
+		sh "rm /usr/local/bin/objc-autodoc"
+	end
+end
+
+
+

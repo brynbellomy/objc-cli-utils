@@ -46,13 +46,18 @@
   };
 
   documentationCommentFor = function(methodDeclaration) {
-    var comment, i, line, methodParams, param, params, regex_param, regex_returnType, returnType, selector, _i, _j, _len, _len1;
+    var comment, i, line, matchedParams, methodParams, param, params, regex_param, regex_returnType, returnType, selector, _i, _j, _len, _len1, _ref;
     regex_returnType = /[-+]\s*\(\s*([a-zA-Z0-9_]+)\s*(\**)?\)\s*/;
-    regex_param = /([a-zA-Z0-9]+)\s*(:\s*\(\s*([a-zA-Z0-9<>]+)\s*(\*?)\s*\)\s*([a-zA-Z0-9]+)\s*)?/g;
+    regex_param = /([a-zA-Z0-9]+)\s*((:)\s*\(\s*([a-zA-Z0-9<>]+)\s*(\*?)\s*\)\s*([a-zA-Z0-9]+)\s*)?/g;
+    methodDeclaration = methodDeclaration.replace(/\n/, "");
     returnType = methodDeclaration.slice(methodDeclaration.indexOf("(") + 1, methodDeclaration.indexOf(")")).replace(" ", "");
     methodParams = methodDeclaration.slice(methodDeclaration.indexOf(")") + 1);
-    selector = methodParams.replace(regex_param, "$1\n").split("\n").join(":");
-    params = methodParams.replace(regex_param, "@param {$3$4} $5\n").split("\n");
+    selector = methodParams.replace(regex_param, "$1$3");
+    params = [];
+    matchedParams = methodParams.match(regex_param);
+    if ((matchedParams != null ? matchedParams.length : void 0) > 0 && (matchedParams != null ? (_ref = matchedParams[0]) != null ? typeof _ref.indexOf === "function" ? _ref.indexOf(":") : void 0 : void 0 : void 0) !== -1) {
+      params = methodParams.replace(regex_param, "@param {$4$5} $6\n").split("\n");
+    }
     comment = [];
     comment.push("#### " + selector.trim());
     comment.push("");
